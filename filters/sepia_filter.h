@@ -1,20 +1,19 @@
-#ifndef __FILTER_H_
-#define __FILTER_H_
+#ifndef __SEPIA_FILTER_H_
+#define __SEPIA_FILTER_H_
 
-#include "../image.h"
+#include "filter.h"
 
-class Filter {
+class SepiaFilter : public Filter {
     public:
         /**
-         * aplica un filtru pe imagine
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
          *          care va contine imaginea rezultata in urma
          *          aplicarii filtrului.
          */
-        virtual void applyFilter(Image *image, Image *newImage) = 0;
-
-        virtual ~Filter() {}
+        virtual void applyFilter(Image *image, Image *newImage) override {
+            
+        }
 };
 
-#endif /* __FILTER_H_ */
+#endif /* __SEPIA_FILTER_H_ */

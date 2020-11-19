@@ -1,8 +1,6 @@
 #ifndef __IMAGE_H_
 #define __IMAGE_H_
 
-#include <stdlib.h>
-#include <assert.h>
 #include "utils.h"
 
 class Pixel {
@@ -13,6 +11,12 @@ class Pixel {
         unsigned char a;
 
     public:
+        /**
+         * constructor - creeaza un pixel-zero (r = g = b = a = -)
+         */
+        Pixel() {
+            this->r = this->g = this->b = this->a = 0;
+        }
         /**
          * constructor - creeaza un obiect pixel cu cele trei componente
          * @param r componenta red
@@ -47,11 +51,11 @@ class Image {
             this->width = width + 2;
             this->height = height + 2;
 
-            this->matrix = (Pixel **)malloc(this->height * sizeof(Pixel *));
+            this->matrix = new Pixel*[this->height];
             ASSERT(this->matrix != nullptr)
 
             for (unsigned int i = 0; i < this->height; ++i) {
-                this->matrix[i] = (Pixel *)calloc(this->width, sizeof(Pixel));
+                this->matrix[i] = new Pixel[this->width]();
                 ASSERT(this->matrix != nullptr)
             }
         }
@@ -61,10 +65,10 @@ class Image {
          */
         ~Image() {
             for (unsigned int i = 0; i < this->height; ++i) {
-                free(this->matrix[i]);
+                delete[] this->matrix[i];
             }
 
-            free(this->matrix);
+            delete[] this->matrix;
         }
 };
 

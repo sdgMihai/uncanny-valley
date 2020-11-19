@@ -1,11 +1,11 @@
 #include <iostream>
+#include "image.h"
 #include "imageIO.h"
 #include "filters/filter.h"
 #include "filter_factory.h"
 
-class Image;
 /**
- * TODO:
+ * OBS:
  * Daca vrem varianta propusa de Cesar mai multe imagini 
  * cu mai multe filtre pe imagini (dar eu cred ca cel mai ok ar fi 
  * sa aplicam mai multe filtre pe o singura imagine, deoarece
@@ -36,24 +36,25 @@ class Image;
  * @param n numarul de filtre
  * @return imaginea obtinuta in urma aplicarii filtrelor
  */
-Image* processImage(Image *image, char **filters, int n) {
+Image* processImage(Image **image, char **filters, int n) {
     Filter *filter;
-    Image *newImage = new Image(image->width - 2, image->height - 2);
+    Image *newImage = new Image((*image)->width - 2, (*image)->height - 2);
     Image *aux;
 
     for (int i = 0; i < n; ++i) {
         std::string f = filters[i];
         std::cout << "Filtrul: " << f << '\n';
+
         filter = FilterFactory::filterCreate(f);
-        filter->applyFilter(image, newImage);
+        filter->applyFilter(*image, newImage);
         delete filter;
 
         if (i == (n - 1)) {
             break;
         } 
 
-        aux = image;
-        image = newImage;
+        aux = *image;
+        *image = newImage;
         newImage = aux;
     }
 
@@ -79,7 +80,7 @@ int main(int argc, char const *argv[])
     std::string fileOut = argv[2];
 
 	image = ImageIo::imageRead(fileIn);
-	newImage = processImage(image, (char **)&argv[3], argc - 3);
+	newImage = processImage(&image, (char **)&argv[3], argc - 3);
 	ImageIo::imageWrite(fileOut, newImage);
 
     delete image;
