@@ -34,6 +34,7 @@ enum FILTER {
     NON_MAXIMUM_SUPRESSION,
     DOUBLE_TRESHOLD,
     EDGE_TRACKING,
+    GRADIENT,
     CANNY_EDGE_DETECTION
 };
 
@@ -51,6 +52,7 @@ const std::unordered_map<std::string, FILTER> filters = {
     {"non-maximum-supression", FILTER::NON_MAXIMUM_SUPRESSION},
     {"double-threshold", FILTER::DOUBLE_TRESHOLD},
     {"edge-tracking", FILTER::EDGE_TRACKING},
+    {"gradient", FILTER::GRADIENT},
     {"canny-edge-detection", FILTER::CANNY_EDGE_DETECTION}
 };
 

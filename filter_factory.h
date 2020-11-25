@@ -26,11 +26,12 @@ class FilterFactory {
                 case FILTER::BLACK_WHITE : return new BlackWhiteFilter();
                 case FILTER::BRIGHTNESS : return new BrightnessFilter(param);
                 case FILTER::CANNY_EDGE_DETECTION : return new CannyEdgeDetectionFilter();
-                case FILTER::CONTRAST : return new ConstrastFilter();
+                case FILTER::CONTRAST : return new ConstrastFilter(param);
                 case FILTER::DOUBLE_TRESHOLD : return new DoubleTresholdFilter();
                 case FILTER::EDGE_TRACKING : return new EdgeTrackingFilter();
                 case FILTER::GAUSSIAN_BLUR : return new GaussianBlurFilter();
                 case FILTER::NON_MAXIMUM_SUPRESSION : return new NonMaximumSupressionFilter();
+                case FILTER::GRADIENT : return new GradientFilter();
                 case FILTER::SEPIA : return new SepiaFilter();
             }
 

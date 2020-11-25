@@ -41,6 +41,17 @@ class CannyEdgeDetectionFilter : public Filter {
 
 class ConstrastFilter : public Filter {
     public:
+        // intre -128 si 128
+        float contrast;
+
+        /**
+         * constructor
+         * @param contrast
+         */
+        ConstrastFilter(float contrast) {
+            this->contrast = contrast;
+        }
+
         /**
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
@@ -52,6 +63,8 @@ class ConstrastFilter : public Filter {
 
 class DoubleTresholdFilter : public Filter {
     public:
+        const float thresholdHigh = 0.1;
+        const float thresholdLow = 0.05;
         /**
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
@@ -59,6 +72,28 @@ class DoubleTresholdFilter : public Filter {
          *          aplicarii filtrului.
          */
         virtual void applyFilter(Image *image, Image *newImage) override;
+};
+
+class GradientFilter : public Filter {
+    public:
+        float **theta; // place to save theta calculation
+        unsigned int thetaHeight;
+        unsigned int thetaWidth;
+
+        /**
+         * @param image referinta catre imagine
+         * @param newImage referinta catre obiectul tip Image
+         *          care va contine imaginea rezultata in urma
+         *          aplicarii filtrului.
+         */
+        virtual void applyFilter(Image *image, Image *newImage) override;
+
+        virtual ~GradientFilter() {
+            for (unsigned int i = 0; i < thetaHeight; ++i) {
+                delete theta[i];
+            }
+            delete theta;
+        }
 };
 
 class DummyFilter : public Filter {
@@ -107,6 +142,27 @@ class GaussianBlurFilter : public Filter {
 
 class NonMaximumSupressionFilter : public Filter {
     public:
+        float **theta;
+        unsigned int thetaHeight;
+        unsigned int thetaWidth;
+
+        NonMaximumSupressionFilter() {
+
+        }
+
+        NonMaximumSupressionFilter(float **theta, unsigned int thetaHeight, unsigned int thetaWidth) {
+            this->thetaWidth = thetaWidth;
+            this->thetaHeight = thetaHeight;
+            this->theta =new float *[thetaHeight];
+
+            for (unsigned int i = 0; i < thetaHeight; ++i) {
+                this->theta[i] = new float[thetaWidth];
+                for (unsigned int j = 0; j < thetaWidth; ++j) {
+                    this->theta[i][j] = theta[i][j];
+                }
+            }
+        }
+
         /**
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
@@ -114,6 +170,13 @@ class NonMaximumSupressionFilter : public Filter {
          *          aplicarii filtrului.
          */
         virtual void applyFilter(Image *image, Image *newImage) override;
+
+        virtual ~NonMaximumSupressionFilter() {
+            for (unsigned int i = 0; i < thetaHeight; ++i) {
+                delete theta[i];
+            }
+            delete theta;
+        }
 };
 
 class SepiaFilter : public Filter {
