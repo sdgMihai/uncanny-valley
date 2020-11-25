@@ -72,7 +72,11 @@ int main(int argc, char const *argv[])
     }
 
     if (argc == 3) {
-        std::cout << "No filter/s provided.\n\n";
+        std::cout << "No filter/s provided.\n";
+        std::cout << "Filters: \n - sharpen \n - emboss \n - sepia \n - contrast \n"
+                  << " - brightness \n - black-white \n - gaussian-blur \n"
+                  << " - non-maximum-suppression \n - double-threshold \n - edge-tracking"
+                  << "\n - canny-edge-detection \n\n";
         return 0;
     }
 

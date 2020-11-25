@@ -1,2 +1,5 @@
 .vscode/
-*.png
+third-party/
+input/
+output/
+build/

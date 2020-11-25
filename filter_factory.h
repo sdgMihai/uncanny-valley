@@ -3,18 +3,6 @@
 
 #include <string>
 #include "filters/filter.h"
-#include "filters/emboss_filter.h"
-#include "filters/sharpen_filter.h"
-#include "filters/black-white_filter.h"
-#include "filters/brightness_filter.h"
-#include "filters/canny-edge-detection_filter.h"
-#include "filters/contrast_filter.h"
-#include "filters/double-treshold_filter.h"
-#include "filters/edge-tracking_filter.h"
-#include "filters/gaussian-blur_filter.h"
-#include "filters/non-maximum-supression_filter.h"
-#include "filters/sepia_filter.h"
-#include "filters/dummy_filter.h"
 #include "utils.h"
 
 class FilterFactory {
@@ -25,7 +13,7 @@ class FilterFactory {
          * @param brightness
          * @return referinta catre obiectul-filtru creat
          */
-        static Filter* filterCreate(std::string &filterName, double brightness = 0.0) {
+        static Filter* filterCreate(std::string &filterName, double param = 0.0) {
             auto it = filters.find(filterName);
 
             if (it == filters.end()) {
@@ -36,7 +24,7 @@ class FilterFactory {
                 case FILTER::SHARPEN : return new SharpenFilter();
                 case FILTER::EMBOSS : return new EmbossFilter();
                 case FILTER::BLACK_WHITE : return new BlackWhiteFilter();
-                case FILTER::BRIGHTNESS : return new BrightnessFilter(brightness);
+                case FILTER::BRIGHTNESS : return new BrightnessFilter(param);
                 case FILTER::CANNY_EDGE_DETECTION : return new CannyEdgeDetectionFilter();
                 case FILTER::CONTRAST : return new ConstrastFilter();
                 case FILTER::DOUBLE_TRESHOLD : return new DoubleTresholdFilter();
