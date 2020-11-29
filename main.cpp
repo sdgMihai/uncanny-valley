@@ -72,6 +72,12 @@ int main(int argc, char const *argv[])
     }
 
     if (argc == 3) {
+        /**
+         * OBS:
+         * la filtrul: non-maximum-suppression, daca vem sa rulam doar pe el
+         * va treb ui sa furnizam acei parametrii, deci zic sa renuntam
+         * in a rula doar acest filtru 
+         */
         std::cout << "No filter/s provided.\n";
         std::cout << "Filters: \n - sharpen \n - emboss \n - sepia \n - contrast \n"
                   << " - brightness \n - black-white \n - gaussian-blur \n"

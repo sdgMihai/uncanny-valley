@@ -1,7 +1,7 @@
 #include "filter.h"
 
 // Se foloseste de theta calculat in gradient ca sa modifice pixelii
-void NonMaximumSupressionFilter::applyFilter(Image *image, Image *newImage) {
+void NonMaximumSuppressionFilter::applyFilter(Image *image, Image *newImage) {
     for (unsigned int i = 1; i < image->height; ++i) {
         for (unsigned int j = 1; j < image->width; ++j) {
             float q = 255;

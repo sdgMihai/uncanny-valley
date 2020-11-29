@@ -15,7 +15,7 @@ void CannyEdgeDetectionFilter::applyFilter(Image *image, Image *newImage) {
     step2.applyFilter(newImage, image);
     GradientFilter step3;
     step3.applyFilter(image, newImage);
-    NonMaximumSupressionFilter step4(step3.theta, step3.thetaHeight, step3.thetaWidth);
+    NonMaximumSuppressionFilter step4(step3.theta, step3.thetaHeight, step3.thetaWidth);
     step4.applyFilter(newImage, image);
     DoubleTresholdFilter step5;
     step5.applyFilter(image, newImage);

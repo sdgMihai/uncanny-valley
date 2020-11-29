@@ -40,10 +40,11 @@ class CannyEdgeDetectionFilter : public Filter {
 };
 
 class ConstrastFilter : public Filter {
-    public:
+    private:
         // intre -128 si 128
         float contrast;
 
+    public:
         /**
          * constructor
          * @param contrast
@@ -62,9 +63,11 @@ class ConstrastFilter : public Filter {
 };
 
 class DoubleTresholdFilter : public Filter {
-    public:
+    private:
         const float thresholdHigh = 0.1;
         const float thresholdLow = 0.05;
+
+    public:
         /**
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
@@ -76,10 +79,11 @@ class DoubleTresholdFilter : public Filter {
 
 class GradientFilter : public Filter {
     public:
-        float **theta; // place to save theta calculation
+        float **theta; /* place to save theta calculation */
         unsigned int thetaHeight;
         unsigned int thetaWidth;
-
+    
+    public:
         /**
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
@@ -89,10 +93,10 @@ class GradientFilter : public Filter {
         virtual void applyFilter(Image *image, Image *newImage) override;
 
         virtual ~GradientFilter() {
-            for (unsigned int i = 0; i < thetaHeight; ++i) {
-                delete theta[i];
+            for (unsigned int i = 0; i < this->thetaHeight; ++i) {
+                delete this->theta[i];
             }
-            delete theta;
+            delete this->theta;
         }
 };
 
@@ -140,20 +144,17 @@ class GaussianBlurFilter : public Filter {
         virtual void applyFilter(Image *image, Image *newImage) override;
 };
 
-class NonMaximumSupressionFilter : public Filter {
-    public:
+class NonMaximumSuppressionFilter : public Filter {
+    private:
         float **theta;
         unsigned int thetaHeight;
         unsigned int thetaWidth;
 
-        NonMaximumSupressionFilter() {
-
-        }
-
-        NonMaximumSupressionFilter(float **theta, unsigned int thetaHeight, unsigned int thetaWidth) {
+    public:
+        NonMaximumSuppressionFilter(float **theta, unsigned int thetaHeight, unsigned int thetaWidth) {
             this->thetaWidth = thetaWidth;
             this->thetaHeight = thetaHeight;
-            this->theta =new float *[thetaHeight];
+            this->theta = new float *[thetaHeight];
 
             for (unsigned int i = 0; i < thetaHeight; ++i) {
                 this->theta[i] = new float[thetaWidth];
@@ -171,11 +172,13 @@ class NonMaximumSupressionFilter : public Filter {
          */
         virtual void applyFilter(Image *image, Image *newImage) override;
 
-        virtual ~NonMaximumSupressionFilter() {
-            for (unsigned int i = 0; i < thetaHeight; ++i) {
-                delete theta[i];
+        virtual ~NonMaximumSuppressionFilter() {
+            if (this->theta) {
+                for (unsigned int i = 0; i < this->thetaHeight; ++i) {
+                    delete this->theta[i];
+                }
+                delete this->theta;
             }
-            delete theta;
         }
 };
 
@@ -202,9 +205,10 @@ class SharpenFilter : public Filter {
 };
 
 class BrightnessFilter : public Filter {
-    public:
+    private:
         float brightness;
 
+    public:
         /**
          * constructor
          * @param brightness

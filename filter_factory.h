@@ -13,7 +13,9 @@ class FilterFactory {
          * @param brightness
          * @return referinta catre obiectul-filtru creat
          */
-        static Filter* filterCreate(std::string &filterName, double param = 0.0) {
+        static Filter* filterCreate(std::string &filterName, double param = 0.0,
+                                    float **theta = nullptr, unsigned int thetaHeight = 0, 
+                                    unsigned int thetaWidth = 0) {
             auto it = filters.find(filterName);
 
             if (it == filters.end()) {
@@ -30,7 +32,7 @@ class FilterFactory {
                 case FILTER::DOUBLE_TRESHOLD : return new DoubleTresholdFilter();
                 case FILTER::EDGE_TRACKING : return new EdgeTrackingFilter();
                 case FILTER::GAUSSIAN_BLUR : return new GaussianBlurFilter();
-                case FILTER::NON_MAXIMUM_SUPRESSION : return new NonMaximumSupressionFilter();
+                case FILTER::NON_MAXIMUM_SUPPRESSION : return new NonMaximumSuppressionFilter(theta, thetaHeight, thetaWidth);
                 case FILTER::GRADIENT : return new GradientFilter();
                 case FILTER::SEPIA : return new SepiaFilter();
             }
