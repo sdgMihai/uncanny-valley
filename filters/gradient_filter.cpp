@@ -85,9 +85,9 @@ void GradientFilter::applyFilter(Image *image, Image *newImage) {
     }
 
     for (unsigned int i = 0; i < image->height; ++i) {
-        delete Ix[i];
-        delete Iy[i];
+        delete[] Ix[i];
+        delete[] Iy[i];
     }
-    delete Ix;
-    delete Iy;
+    delete[] Ix;
+    delete[] Iy;
 }

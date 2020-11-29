@@ -25,22 +25,17 @@ void GradientFilter::applyFilter(Image *image, Image *newImage) {
     this->thetaHeight = image->height;
     this->thetaWidth = image->width;
 
-    unsigned int i, j;
-
-    /* TODO: ar trebui sa vedem cum stabilim numarul de thread-uri */
-    omp_set_num_threads(omp_get_num_procs());
-
-    #pragma omp parallel for shared(image, Ix, Iy, theta) private(i)
-        for (i = 0; i < image->height; ++i) {
+    #pragma omp parallel for
+        for (unsigned int i = 0; i < image->height; ++i) {
             Ix[i] = new float[image->width]();
             Iy[i] = new float[image->width]();
             theta[i] = new float [image->width]();
         }
 
     /* 1. Se aplica kernelul Gx pe imagine si se obtine Ix */
-    #pragma omp parallel for shared(image, Ix, Gx) private(i, j)
-        for (i = 1; i < image->height - 1; ++i) {
-            for (j = 1; j < image->width - 1; ++j) {
+    #pragma omp parallel for
+        for (unsigned int i = 1; i < image->height - 1; ++i) {
+            for (unsigned int j = 1; j < image->width - 1; ++j) {
                 float gray = 0;
 
                 for (int ki = -1; ki <= 1; ++ki) {
@@ -53,7 +48,7 @@ void GradientFilter::applyFilter(Image *image, Image *newImage) {
         }
 
     /* 2. Se aplica kernelul Gy pe imagine si se obtine Iy */
-    #pragma omp parallel for shared(image, Iy, Gy) private(i, j)
+    #pragma omp parallel for
         for (unsigned int i = 1; i < image->height - 1; ++i) {
             for (unsigned int j = 1; j < image->width - 1; ++j) {
                 float gray = 0;
@@ -72,25 +67,26 @@ void GradientFilter::applyFilter(Image *image, Image *newImage) {
      * se foloseste Ix ca depozit.
      * Se calculeaza theta = arctangenta(Iy, Ix) pe fiecare element
      */
-    for (i = 1; i < image->height - 1; ++i) {
-        for (j = 1; j < image->width - 1; ++j) {
-            float gray;
-            gray = sqrt(Ix[i][j] * Ix[i][j] + Iy[i][j] * Iy[i][j]);
-            if (gMax < gray) {
-                gMax = gray;
-            }
-            Ix[i][j] = gray;
-            theta[i][j] =  atan2(Iy[i][j], Ix[i][j]) * 180 / M_PI;
-            if (theta[i][j] < 0) {
-                theta[i][j] += 180;
+    #pragma omp parallel for reduction(max:gMax)
+        for (unsigned int i = 1; i < image->height - 1; ++i) {
+            for (unsigned int j = 1; j < image->width - 1; ++j) {
+                float gray;
+                gray = sqrt(Ix[i][j] * Ix[i][j] + Iy[i][j] * Iy[i][j]);
+                if (gray > gMax) {
+                    gMax = gray;
+                }
+                Ix[i][j] = gray;
+                theta[i][j] =  atan2(Iy[i][j], Ix[i][j]) * 180 / M_PI;
+                if (theta[i][j] < 0) {
+                    theta[i][j] += 180;
+                }
             }
         }
-    }
 
     /* 4. Se calculeaza G = G / G.max() * 255 */
-    #pragma omp parallel for shared(image, newImage, Ix, gMax) private(i, j)
-        for (i = 1; i < image->height - 1; ++i) {
-            for (j = 1; j < image->width - 1; ++j) {
+    #pragma omp parallel for
+        for (unsigned int i = 1; i < image->height - 1; ++i) {
+            for (unsigned int j = 1; j < image->width - 1; ++j) {
                 float gray = Ix[i][j];
                 gray = (gray / gMax) * 255;
                 gray = (gray < 0) ? 0 : gray;
@@ -99,11 +95,11 @@ void GradientFilter::applyFilter(Image *image, Image *newImage) {
             }
         }
 
-    #pragma omp parallel for shared(image, Ix, Iy) private(i)
-        for (i = 0; i < image->height; ++i) {
-            delete Ix[i];
-            delete Iy[i];
+    #pragma omp parallel for
+        for (unsigned int i = 0; i < image->height; ++i) {
+            delete[] Ix[i];
+            delete[] Iy[i];
         }
-    delete Ix;
-    delete Iy;
+    delete[] Ix;
+    delete[] Iy;
 }

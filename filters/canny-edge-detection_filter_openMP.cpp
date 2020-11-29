@@ -45,17 +45,12 @@ void CannyEdgeDetectionFilter::applyFilter(Image *image, Image *newImage) {
     delete edgeTrackingFilter;
 
     /* Clean noise */
-    unsigned int i, j;
-
-    /* TODO: ar trebui sa vedem cum stabilim numarul de thread-uri */
-    omp_set_num_threads(omp_get_num_procs());
-
-    #pragma omp parallel for shared(image, newImage) private(i, j)
-        for (i = 1; i < image->height - 1; ++i) {
+    #pragma omp parallel for
+        for (unsigned int i = 1; i < image->height - 1; ++i) {
             Pixel *swp = image->matrix[i];
             image->matrix[i] = newImage->matrix[i];
             newImage->matrix[i] = swp;
-            for (j = 1; j < image->width - 1; ++j) {
+            for (unsigned int j = 1; j < image->width - 1; ++j) {
                 if (newImage->matrix[i][j].r < 100) {
                     newImage->matrix[i][j] = Pixel(0, 0, 0, newImage->matrix[i][j].a);
                 }

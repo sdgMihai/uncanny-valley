@@ -4,14 +4,10 @@
 /* Aplica formula de contrast (ia valori intre -128 si 128) */
 void ConstrastFilter::applyFilter(Image *image, Image *newImage) {
     float factor = (259. * (this->contrast + 255.)) / (255. * (259. - this->contrast));
-    unsigned int i, j;
 
-    /* TODO: ar trebui sa vedem cum stabilim numarul de thread-uri */
-    omp_set_num_threads(omp_get_num_procs());
-
-    #pragma omp parallel for shared(image, newImage, factor) private(i, j)
-        for (i = 1; i < image->height - 1; ++i) {
-            for (j = 1; j < image->width - 1; ++j) {
+    #pragma omp parallel for
+        for (unsigned int i = 1; i < image->height - 1; ++i) {
+            for (unsigned int j = 1; j < image->width - 1; ++j) {
                 Pixel newPixel;
                 float tempColor;
 

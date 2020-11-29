@@ -11,7 +11,7 @@ FILTERS_OPENMP = $(CC_FOLDER)/dummy_filter_openMP.o $(CC_FOLDER)/black-white_fil
 
 build: openMP_version
 
-openMP_version: main.cpp $(CC_FOLDER)/lodepng.o $(FILTERS_OPENMP)
+openMP_version: main_openMP.cpp $(CC_FOLDER)/lodepng.o $(FILTERS_OPENMP)
 	$(CC) $(FLAGS) -DASSERT_ENABLE $^ -o $@ $(LIBRARY)
 
 $(CC_FOLDER)/black-white_filter_openMP.o: ./filters/black-white_filter_openMP.cpp

@@ -9,23 +9,21 @@
 void DoubleTresholdFilter::applyFilter(Image *image, Image *newImage) {
     float maxVal = -MAXFLOAT;
 
-    unsigned int i, j;
-
-    for (i = 1; i < image->height - 1; ++i) {
-        for (j = 1; j < image->width - 1; ++j) {
-            maxVal = (maxVal < image->matrix[i][j].r) ? image->matrix[i][j].r : maxVal;
+    #pragma omp parallel for reduction(max:maxVal)
+    for (unsigned int i = 1; i < image->height - 1; ++i) {
+        for (unsigned int j = 1; j < image->width - 1; ++j) {
+            if (image->matrix[i][j].r > maxVal) {
+                maxVal = image->matrix[i][j].r;
+            }
         }
     }
 
     float high = maxVal * this->thresholdHigh;
     float low  = high * this->thresholdLow;
 
-    /* TODO: ar trebui sa vedem cum stabilim numarul de thread-uri */
-    omp_set_num_threads(omp_get_num_procs());
-
-    #pragma omp parallel for shared(image, newImage, high, low) private(i, j)
-        for (i = 1; i < image->height - 1; ++i) {
-            for (j = 1; j < image->width - 1; ++j) {
+    #pragma omp parallel for
+        for (unsigned int i = 1; i < image->height - 1; ++i) {
+            for (unsigned int j = 1; j < image->width - 1; ++j) {
                 if (image->matrix[i][j].r >= high) {
                     newImage->matrix[i][j] = Pixel(255, 255, 255, image->matrix[i][j].a);
                 } else {

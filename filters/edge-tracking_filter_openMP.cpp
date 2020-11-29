@@ -5,14 +5,10 @@
 void EdgeTrackingFilter::applyFilter(Image *image, Image *newImage) {
     const int weak = 100;
     const int strong = 255;
-    unsigned int i, j;
 
-    /* TODO: ar trebui sa vedem cum stabilim numarul de thread-uri */
-    omp_set_num_threads(omp_get_num_procs());
-
-    #pragma omp parallel for shared(image, newImage, weak, strong) private(i, j)
-        for (i = 1; i < image->height - 1; ++i) {
-            for (j = 1; j < image->width - 1; ++j) {
+    #pragma omp parallel for
+        for (unsigned int i = 1; i < image->height - 1; ++i) {
+            for (unsigned int j = 1; j < image->width - 1; ++j) {
                 if (image->matrix[i][j].r == weak) {
                     if (image->matrix[i - 1][j - 1].r == strong || image->matrix[i - 1][j].r == strong ||
                         image->matrix[i - 1][j + 1].r  == strong || image->matrix[i][j - 1].r == strong ||

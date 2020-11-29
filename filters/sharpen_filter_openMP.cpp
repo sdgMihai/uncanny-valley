@@ -7,14 +7,9 @@ static const float kernel[3][3] = {{0, -2. / 3., 0},
 
 /* Ca la gaussian */
 void SharpenFilter::applyFilter(Image *image, Image *newImage) {
-    unsigned int i, j;
-
-    /* TODO: ar trebui sa vedem cum stabilim numarul de thread-uri */
-    omp_set_num_threads(omp_get_num_procs());
-
-    #pragma omp parallel for shared(image, newImage, kernel) private(i, j)
-        for (i = 1; i < image->height - 1; ++i) {
-            for (j = 1; j < image->width - 1; ++j) {
+    #pragma omp parallel for
+        for (unsigned int i = 1; i < image->height - 1; ++i) {
+            for (unsigned int j = 1; j < image->width - 1; ++j) {
                 Pixel newPixel;
                 float red, green, blue;
                 red = green = blue = 0;

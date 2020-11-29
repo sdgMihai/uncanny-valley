@@ -94,9 +94,9 @@ class GradientFilter : public Filter {
 
         virtual ~GradientFilter() {
             for (unsigned int i = 0; i < this->thetaHeight; ++i) {
-                delete this->theta[i];
+                delete[] this->theta[i];
             }
-            delete this->theta;
+            delete[] this->theta;
         }
 };
 
@@ -175,9 +175,9 @@ class NonMaximumSuppressionFilter : public Filter {
         virtual ~NonMaximumSuppressionFilter() {
             if (this->theta) {
                 for (unsigned int i = 0; i < this->thetaHeight; ++i) {
-                    delete this->theta[i];
+                    delete[] this->theta[i];
                 }
-                delete this->theta;
+                delete[] this->theta;
             }
         }
 };
