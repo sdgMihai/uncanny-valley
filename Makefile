@@ -44,7 +44,7 @@ $(CC_FOLDER)/emboss_filter.o: ./filters/emboss_filter.cpp
 $(CC_FOLDER)/gaussian-blur_filter.o: ./filters/gaussian-blur_filter.cpp
 	$(CC) $(FLAGS) $^ -c -o $@
 
-$(CC_FOLDER)/non-maximum-suppression_filter.o: ./filters/non-maximum-supression_filter.cpp
+$(CC_FOLDER)/non-maximum-suppression_filter.o: ./filters/non-maximum-suppression_filter.cpp
 	$(CC) $(FLAGS) $^ -c -o $@
 
 $(CC_FOLDER)/sepia_filter.o: ./filters/sepia_filter.cpp

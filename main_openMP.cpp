@@ -1,4 +1,6 @@
 #include <iostream>
+#include <omp.h>
+
 #include "image.h"
 #include "imageIO.h"
 #include "filters/filter.h"
@@ -88,6 +90,9 @@ int main(int argc, char const *argv[])
 
     std::string fileIn = argv[1];
     std::string fileOut = argv[2];
+
+    /* TODO: ar trebui sa vedem cum stabilim numarul de thread-uri */
+    omp_set_num_threads(omp_get_num_procs());
 
 	image = ImageIo::imageRead(fileIn);
 	newImage = processImage(&image, (char **)&argv[3], argc - 3);
