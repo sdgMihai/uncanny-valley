@@ -3,7 +3,7 @@
 
 #include "utils.h"
 
-class Pixel {
+class __attribute__((__packed__)) Pixel {
     public:
         unsigned char r;
         unsigned char g;

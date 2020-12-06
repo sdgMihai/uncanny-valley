@@ -24,6 +24,7 @@ void GradientFilter::applyFilter(Image *image, Image *newImage) {
     
     this->thetaHeight = image->height;
     this->thetaWidth = image->width;
+    printf("openMP grad\n");
 
     #pragma omp parallel for
         for (unsigned int i = 0; i < image->height; ++i) {
