@@ -31,7 +31,7 @@
 
 /**
  * aplica filtrele pe imaginea primita
- * @param image referita catre imagine
+ * @param image referinta catre imagine
  * @param filters lista de filtre ce trebuie aplicata
  * @param n numarul de filtre
  * @return imaginea obtinuta in urma aplicarii filtrelor

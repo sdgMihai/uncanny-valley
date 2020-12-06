@@ -1,0 +1,520 @@
+rank:3 buff[0]:632 buff[1]1202 with chunk 158
+start 474 end 631 no rows 158
+rank:0 buff[0]:632 buff[1]1202 with chunk 158
+
+sending to tid 1 start 158 end 317 no of rows 160
+rank:1 buff[0]:632 buff[1]1202 with chunk 158
+start 158 end 317 no rows 160
+rank:2 buff[0]:632 buff[1]1202 with chunk 158
+start 316 end 475 no rows 160
+rank 2 height 160 width 1202
+rank 3 height 158 width 1202
+rank 1 height 160 width 1202
+end sending to tid 1
+
+sending to tid 2 start 316 end 475 no of rows 160
+rank  1 received all lines
+chunk: 158
+rank  2 received all lines
+chunk: 158
+end sending to tid 2
+
+sending to tid 3 start 474 end 631 no of rows 158
+time recv in r:3, no:0 -> 0
+time recv in r:3, no:1 -> 0
+time recv in r:3, no:2 -> 0
+time recv in r:3, no:3 -> 0
+time recv in r:3, no:4 -> 0
+time recv in r:3, no:5 -> 0
+time recv in r:3, no:6 -> 0
+time recv in r:3, no:7 -> 0
+time recv in r:3, no:8 -> 0
+time recv in r:3, no:9 -> 0
+time recv in r:3, no:10 -> 0
+time recv in r:3, no:11 -> 0
+time recv in r:3, no:12 -> 0
+time recv in r:3, no:13 -> 0
+time recv in r:3, no:14 -> 0
+time recv in r:3, no:15 -> 0
+time recv in r:3, no:16 -> 0
+time recv in r:3, no:17 -> 0
+time recv in r:3, no:18 -> 0
+time recv in r:3, no:19 -> 0
+time recv in r:3, no:20 -> 0
+time recv in r:3, no:21 -> 0
+time recv in r:3, no:22 -> 0
+time recv in r:3, no:23 -> 0
+time recv in r:3, no:24 -> 0
+time recv in r:3, no:25 -> 0
+time recv in r:3, no:26 -> 0
+time recv in r:3, no:27 -> 0
+time recv in r:3, no:28 -> 0
+time recv in r:3, no:29 -> 0
+time recv in r:3, no:30 -> 0
+time recv in r:3, no:31 -> 0
+time recv in r:3, no:32 -> 0
+time recv in r:3, no:33 -> 0
+time recv in r:3, no:34 -> 0
+time recv in r:3, no:35 -> 0
+time recv in r:3, no:36 -> 0
+time recv in r:3, no:37 -> 0
+time recv in r:3, no:38 -> 0
+time recv in r:3, no:39 -> 0
+time recv in r:3, no:40 -> 0
+time recv in r:3, no:41 -> 0
+time recv in r:3, no:42 -> 0
+time recv in r:3, no:43 -> 0
+time recv in r:3, no:44 -> 0
+time recv in r:3, no:45 -> 0
+time recv in r:3, no:46 -> 0
+time recv in r:3, no:47 -> 0
+time recv in r:3, no:48 -> 0
+time recv in r:3, no:49 -> 0
+time recv in r:3, no:50 -> 0
+time recv in r:3, no:51 -> 0
+time recv in r:3, no:52 -> 0
+time recv in r:3, no:53 -> 0
+time recv in r:3, no:54 -> 0
+time recv in r:3, no:55 -> 0
+time recv in r:3, no:56 -> 0
+time recv in r:3, no:57 -> 0
+time recv in r:3, no:58 -> 0
+time recv in r:3, no:59 -> 0
+time recv in r:3, no:60 -> 0
+time recv in r:3, no:61 -> 0
+time recv in r:3, no:62 -> 0
+time recv in r:3, no:63 -> 0
+time recv in r:3, no:64 -> 0
+time recv in r:3, no:65 -> 0
+time recv in r:3, no:66 -> 0
+time recv in r:3, no:67 -> 0
+time recv in r:3, no:68 -> 0
+time recv in r:3, no:69 -> 0
+time recv in r:3, no:70 -> 0
+time recv in r:3, no:71 -> 0
+time recv in r:3, no:72 -> 0
+time recv in r:3, no:73 -> 0
+time recv in r:3, no:74 -> 0
+time recv in r:3, no:75 -> 0
+time recv in r:3, no:76 -> 0
+time recv in r:3, no:77 -> 0
+time recv in r:3, no:78 -> 0
+time recv in r:3, no:79 -> 0
+time recv in r:3, no:80 -> 0
+time recv in r:3, no:81 -> 0
+time recv in r:3, no:82 -> 0
+time recv in r:3, no:83 -> 0
+time recv in r:3, no:84 -> 0
+time recv in r:3, no:85 -> 0
+time recv in r:3, no:86 -> 0
+time recv in r:3, no:87 -> 0
+time recv in r:3, no:88 -> 0
+time recv in r:3, no:89 -> 0
+time recv in r:3, no:90 -> 0
+time recv in r:3, no:91 -> 0
+time recv in r:3, no:92 -> 0
+time recv in r:3, no:93 -> 0
+time recv in r:3, no:94 -> 0
+time recv in r:3, no:95 -> 0
+time recv in r:3, no:96 -> 0
+time recv in r:3, no:97 -> 0
+time recv in r:3, no:98 -> 0
+time recv in r:3, no:99 -> 0
+time recv in r:3, no:100 -> 0
+time recv in r:3, no:101 -> 0
+time recv in r:3, no:102 -> 0
+time recv in r:3, no:103 -> 0
+time recv in r:3, no:104 -> 0
+time recv in r:3, no:105 -> 0
+time recv in r:3, no:106 -> 0
+time recv in r:3, no:107 -> 0
+time recv in r:3, no:108 -> 0
+time recv in r:3, no:109 -> 0
+time recv in r:3, no:110 -> 0
+time recv in r:3, no:111 -> 0
+time recv in r:3, no:112 -> 0
+time recv in r:3, no:113 -> 0
+time recv in r:3, no:114 -> 0
+time recv in r:3, no:115 -> 0
+time recv in r:3, no:116 -> 0
+time recv in r:3, no:117 -> 0
+in rank 1 image height:160 image width:1202filter rank:1
+time recv in r:3, no:118 -> 0
+time recv in r:3, no:119 -> 0
+Filtrul: canny-edge-detection
+time recv in r:3, no:120 -> 0
+time recv in r:3, no:121 -> 0
+time recv in r:3, no:122 -> 0
+time recv in r:3, no:123 -> 0
+time recv in r:3, no:124 -> 0
+time recv in r:3, no:125 -> 0
+time recv in r:3, no:126 -> 0
+time recv in r:3, no:127 -> 0
+time recv in r:3, no:128 -> 0
+time recv in r:3, no:129 -> 0
+time recv in r:3, no:130 -> 0
+time recv in r:3, no:131 -> 0
+time recv in r:3, no:132 -> 0
+time recv in r:3, no:133 -> 0
+time recv in r:3, no:134 -> 0
+time recv in r:3, no:135 -> 0
+time recv in r:3, no:136 -> 0
+time recv in r:3, no:137 -> 0
+time recv in r:3, no:138 -> 0
+time recv in r:3, no:139 -> 0
+time recv in r:3, no:140 -> 0
+time recv in r:3, no:141 -> 0
+time recv in r:3, no:142 -> 0
+time recv in r:3, no:143 -> 0
+time recv in r:3, no:144 -> 0
+time recv in r:3, no:145 -> 0
+time recv in r:3, no:146 -> 0
+time recv in r:3, no:147 -> 0
+time recv in r:3, no:148 -> 0
+time recv in r:3, no:149 -> 0
+time recv in r:3, no:150 -> 0
+time recv in r:3, no:151 -> 0
+time recv in r:3, no:152 -> 0
+time recv in r:3, no:153 -> 0
+time recv in r:3, no:154 -> 0
+time recv in r:3, no:155 -> 0
+time recv in r:3, no:156 -> 0
+end sending to tid 3
+chunk: 158
+time recv in r:3, no:157 -> 0
+rank  3 received all lines
+chunk: 158
+in rank 2 image height:160 image width:1202filter rank:2
+Filtrul: canny-edge-detection
+in rank 3 image height:158 image width:1202filter rank:3
+Filtrul: canny-edge-detection
+in rank 0 image height:160 image width:1202filter rank:0
+Filtrul: canny-edge-detection
+canny-edge------------------
+get here rank 2
+canny-edge------------------
+get here rank 1
+canny-edge------------------
+get here rank 0
+master recv start 159 end 317
+end recv
+master recv start 317 end 475
+end recv
+master recv start 475 end 631
+recv 475
+canny-edge------------------
+get here rank 3
+send width: 1202
+send 1
+send 2
+recv 476
+recv 477
+send 3
+recv 478
+recv 479
+recv 480
+send 4
+send 5
+send 6
+recv 481
+send 7
+send 8
+send 9
+send 10
+recv 482
+recv 483
+recv 484
+send 11
+recv 485
+recv 486
+recv 487
+recv 488
+send 12
+send 13
+send 14
+send 15
+recv 489
+send 16
+send 17
+recv 490
+recv 491
+recv 492
+recv 493
+send 18
+send 19
+recv 494
+recv 495
+send 20
+send 21
+recv 496
+send 22
+recv 497
+recv 498
+send 23
+send 24
+recv 499
+send 25
+recv 500
+recv 501
+send 26
+send 27
+recv 502
+send 28
+send 29
+send 30
+recv 503
+recv 504
+send 31
+recv 505
+send 32
+send 33
+send 34
+recv 506
+recv 507
+recv 508
+recv 509
+recv 510
+send 35
+send 36
+recv 511
+recv 512
+send 37
+send 38
+recv 513
+send 39
+recv 514
+recv 515
+recv 516
+send 40
+send 41
+send 42
+recv 517
+send 43
+send 44
+send 45
+recv 518
+recv 519
+recv 520
+send 46
+send 47
+send 48
+recv 521
+recv 522
+send 49
+send 50
+recv 523
+recv 524
+send 51
+send 52
+recv 525
+recv 526
+recv 527
+recv 528
+send 53
+send 54
+send 55
+send 56
+recv 529
+recv 530
+send 57
+recv 531
+send 58
+send 59
+recv 532
+recv 533
+send 60
+recv 534
+send 61
+send 62
+recv 535
+recv 536
+recv 537
+send 63
+recv 538
+recv 539
+recv 540
+send 64
+send 65
+send 66
+recv 541
+recv 542
+send 67
+send 68
+recv 543
+recv 544
+send 69
+send 70
+send 71
+recv 545
+send 72
+send 73
+recv 546
+recv 547
+send 74
+recv 548
+recv 549
+recv 550
+send 75
+send 76
+send 77
+recv 551
+send 78
+send 79
+recv 552
+recv 553
+send 80
+recv 554
+recv 555
+recv 556
+send 81
+send 82
+recv 557
+send 83
+send 84
+send 85
+send 86
+recv 558
+recv 559
+recv 560
+send 87
+send 88
+recv 561
+recv 562
+send 89
+send 90
+recv 563
+recv 564
+recv 565
+send 91
+send 92
+send 93
+send 94
+recv 566
+recv 567
+recv 568
+recv 569
+send 95
+send 96
+send 97
+send 98
+recv 570
+recv 571
+recv 572
+recv 573
+recv 574
+recv 575
+send 99
+send 100
+send 101
+send 102
+recv 576
+send 103
+send 104
+recv 577
+recv 578
+recv 579
+recv 580
+send 105
+send 106
+recv 581
+recv 582
+send 107
+send 108
+send 109
+send 110
+recv 583
+recv 584
+send 111
+send 112
+recv 585
+recv 586
+send 113
+recv 587
+send 114
+send 115
+recv 588
+recv 589
+recv 590
+send 116
+recv 591
+recv 592
+send 117
+send 118
+recv 593
+send 119
+recv 594
+recv 595
+send 120
+send 121
+recv 596
+send 122
+recv 597
+recv 598
+send 123
+send 124
+send 125
+recv 599
+send 126
+send 127
+recv 600
+recv 601
+recv 602
+send 128
+recv 603
+recv 604
+send 129
+send 130
+recv 605
+recv 606
+send 131
+send 132
+send 133
+send 134
+send 135
+recv 607
+recv 608
+recv 609
+recv 610
+send 136
+recv 611
+recv 612
+send 137
+send 138
+recv 613
+recv 614
+send 139
+send 140
+send 141
+send 142
+recv 615
+recv 616
+recv 617
+send 143
+recv 618
+recv 619
+recv 620
+send 144
+send 145
+send 146
+recv 621
+send 147
+send 148
+send 149
+send 150
+recv 622
+recv 623
+recv 624
+recv 625
+send 151
+send 152
+send 153
+recv 626
+recv 627
+recv 628
+recv 629
+send 154
+send 155
+recv 630
+end recv
+send 156
+end send

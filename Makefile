@@ -1,6 +1,6 @@
 PARALLEL_BUILD=&
 
-build: serial openmp #mpi pthread
+build: serial openmp mpi #pthread
 
 mpi: MPI_version/Makefile
 	cd MPI_version && mkdir -p build && make && cd .. && \
