@@ -58,6 +58,7 @@ $(CC_FOLDER)/lodepng.o: ../third-party/lodepng.cpp
 
 run:
 	mpirun -np $(no_threads) ./mpi_version $(in) $(out) $(filter) 1> log.out 2>error.out
+# valgrind --tool=memcheck  --leak-check=yes
 
 clean:
 	rm -rf mpi_version build/*
