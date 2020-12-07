@@ -3,3 +3,8 @@ third-party/
 input/
 output/
 build/
+serial.exe
+mpi.exe
+pthread.exe
+openmp.exe
+
