@@ -57,7 +57,7 @@ $(CC_FOLDER)/lodepng.o: ../third-party/lodepng.cpp
 	$(CC) $(FLAGS) -O3 $^ -C -c -o $@
 
 run:
-	mpirun -np $(no_threads) ./mpi_version $(in) $(out) $(filter) 1> log.out 2>error.out
+	mpirun -np $(no_threads) ./mpi_version $(in) $(out) $(filter)
 
 clean:
 	rm -rf mpi_version build/*
