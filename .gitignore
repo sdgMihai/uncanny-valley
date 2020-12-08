@@ -7,4 +7,7 @@ serial.exe
 mpi.exe
 pthread.exe
 openmp.exe
-
+Pthread_version/pthread_version
+MPI_version/mpi_version
+OpenMP_version/openmp_version
+Serial_version/ser_version
