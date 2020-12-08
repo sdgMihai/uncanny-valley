@@ -76,8 +76,8 @@ void GradientFilter::applyFilter(Image *image, Image *newImage) {
                 if (gray > gMax) {
                     gMax = gray;
                 }
-                Ix[i][j] = gray;
                 theta[i][j] =  atan2(Iy[i][j], Ix[i][j]) * 180 / M_PI;
+                Ix[i][j] = gray;
                 if (theta[i][j] < 0) {
                     theta[i][j] += 180;
                 }
