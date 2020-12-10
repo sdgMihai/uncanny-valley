@@ -6,6 +6,7 @@
  *  Acest filtru foloseste mai multe filtre aplicate succesiv:
  *   black&white, gaussian blur, gradient, non-maximum supression, double threshold, edge tracking
  */
+static float **auxTheta;
 
 void CannyEdgeDetectionFilter::applyFilter(Image *image, Image *newImage) {
     thread_specific_data_t *t_data = (thread_specific_data_t *) this->filter_additional_data;
@@ -27,9 +28,12 @@ void CannyEdgeDetectionFilter::applyFilter(Image *image, Image *newImage) {
 
     GradientFilter step3(t_data);
     step3.applyFilter(image, newImage);
+    if (t_data->thread_id == 0) {
+        auxTheta = step3.theta;
+    }
     pthread_barrier_wait(t_data->barrier);
 
-    NonMaximumSuppressionFilter step4(step3.theta, step3.thetaHeight, step3.thetaWidth, t_data);
+    NonMaximumSuppressionFilter step4(auxTheta, step3.thetaHeight, step3.thetaWidth, t_data);
     step4.applyFilter(newImage, image);
     pthread_barrier_wait(t_data->barrier);
 

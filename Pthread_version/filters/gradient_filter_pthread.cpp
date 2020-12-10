@@ -12,10 +12,10 @@ static const float Gy[3][3] = {{1, 2, 1},
                                 {-1, -2, -1}};
 
 static float gMax = -MAXFLOAT;
+static float **Ix, **Iy, **auxTheta;
 
 // Cel mai mare din filtre, se aplica pasii de mai jos pe rand
 void GradientFilter::applyFilter(Image *image, Image *newImage) {
-    float **Ix, **Iy;
     thread_specific_data_t *t_data = (thread_specific_data_t *) this->filter_additional_data;
 
     u_int64_t slice = (image->height - 2) / NUM_THREADS;
@@ -25,17 +25,24 @@ void GradientFilter::applyFilter(Image *image, Image *newImage) {
         stop = thread_max((t_data->thread_id + 1) * slice, (image->height - 1));
     }
 
-    Ix = new float *[image->height];
-    Iy = new float *[image->height];
-    this->theta =new float *[image->height];
+    if (t_data->thread_id == 0)
+    {
+        Ix = new float *[image->height];
+        Iy = new float *[image->height];
+        auxTheta = new float *[image->height];
+        this->thetaHeight = image->height;
+        this->thetaWidth = image->width;
+
+        for (unsigned int i = 0; i < image->height; ++i) {
+            Ix[i] = new float[image->width]();
+            Iy[i] = new float[image->width]();
+            auxTheta[i] = new float [image->width]();
+        }
+    }
     this->thetaHeight = image->height;
     this->thetaWidth = image->width;
-
-    for (unsigned int i = 0; i < image->height; ++i) {
-        Ix[i] = new float[image->width]();
-        Iy[i] = new float[image->width]();
-        this->theta[i] = new float [image->width]();
-    }
+    pthread_barrier_wait(t_data->barrier);
+    this->theta = auxTheta;
 
     // 1. Se aplica kernelul Gx pe imagine si se obtine Ix
     for (unsigned int i = start; i < stop; ++i) {
@@ -99,10 +106,15 @@ void GradientFilter::applyFilter(Image *image, Image *newImage) {
         }
     }
 
-    for (unsigned int i = 0; i < image->height; ++i) {
-        delete[] Ix[i];
-        delete[] Iy[i];
+    if (t_data->thread_id == 0)
+    {
+        for (unsigned int i = 0; i < image->height; ++i) {
+            delete[] Ix[i];
+            delete[] Iy[i];
+        }
+        delete[] Ix;
+        delete[] Iy;
+    } else {
+        this->theta = NULL;
     }
-    delete[] Ix;
-    delete[] Iy;
 }

@@ -110,10 +110,12 @@ class GradientFilter : public Filter {
         virtual void applyFilter(Image *image, Image *newImage) override;
 
         virtual ~GradientFilter() {
-            for (unsigned int i = 0; i < this->thetaHeight; ++i) {
-                delete[] this->theta[i];
+            if (this->theta) {
+                for (unsigned int i = 0; i < this->thetaHeight; ++i) {
+                    delete[] this->theta[i];
+                }
+                delete[] this->theta;
             }
-            delete[] this->theta;
         }
 };
 
@@ -185,14 +187,7 @@ class NonMaximumSuppressionFilter : public Filter {
             this->filter_additional_data = filter_additional_data;
             this->thetaWidth = thetaWidth;
             this->thetaHeight = thetaHeight;
-            this->theta = new float *[thetaHeight];
-
-            for (unsigned int i = 0; i < thetaHeight; ++i) {
-                this->theta[i] = new float[thetaWidth];
-                for (unsigned int j = 0; j < thetaWidth; ++j) {
-                    this->theta[i][j] = theta[i][j];
-                }
-            }
+            this->theta = theta;
         }
 
         /**
@@ -204,12 +199,7 @@ class NonMaximumSuppressionFilter : public Filter {
         virtual void applyFilter(Image *image, Image *newImage) override;
 
         virtual ~NonMaximumSuppressionFilter() {
-            if (this->theta) {
-                for (unsigned int i = 0; i < this->thetaHeight; ++i) {
-                    delete[] this->theta[i];
-                }
-                delete[] this->theta;
-            }
+            
         }
 };
 
