@@ -1,9 +1,15 @@
 #include <iostream>
+#include <string>
+
 #include "../utils/image.h"
 #include "../utils/imageIO.h"
 #include "../utils/filter.h"
 #include "../utils/filter_factory.h"
 #include "helpers_pthread.h"
+
+#define CONTRAST "contrast"
+#define BRIGHTNESS "brightness"
+
 typedef struct {
     Image *image, *newImage;
     thread_specific_data_t thread_data;
@@ -47,15 +53,36 @@ void processImage(Image **image, char **filters, int n, thread_data_t *thread_da
     Filter *filter;
     Image *aux;
     Image *newImage = thread_data->newImage;
+    double param;
 
     for (int i = 0; i < n; ++i) {
         std::string f = filters[i];
-        if (thread_data->thread_data.thread_id == 0) {
-            std::cout << "Filtrul: " << f << '\n';
+
+        std::cout << "Filtrul: " << f << '\n';
+
+        if (f == BRIGHTNESS) {
+            param = std::stod(filters[++i]);
+            if (param < 0 || param > 2) {
+                continue;
+            }
+
+            std::cout << param << '\n';
+            filter = FilterFactory::filterCreate(f, param, nullptr, 0, 0,
+                &(thread_data->thread_data));
+        } else if (f == CONTRAST) {
+            param = std::stod(filters[++i]);
+            if (param < -128 || param > 128) {
+                continue;
+            }
+
+            std::cout << param << '\n';
+            filter = FilterFactory::filterCreate(f, param, nullptr, 0, 0,
+                &(thread_data->thread_data));
+        } else {
+            filter = FilterFactory::filterCreate(f, 0.0, nullptr, 0, 0,
+                &(thread_data->thread_data));
         }
 
-        filter = FilterFactory::filterCreate(f, 0.0, nullptr, 0, 0,
-                &(thread_data->thread_data));
         filter->applyFilter(*image, newImage);
         pthread_barrier_wait(thread_data->thread_data.barrier);
         delete filter;
@@ -98,8 +125,8 @@ int main(int argc, char const *argv[])
          * in a rula doar acest filtru 
          */
         std::cout << "No filter/s provided.\n";
-        std::cout << "Filters: \n - sharpen \n - emboss \n - sepia \n - contrast \n"
-                  << " - brightness \n - black-white \n - gaussian-blur \n"
+        std::cout << "Filters: \n - sharpen \n - emboss \n - sepia \n - contrast [-128, 128] \n"
+                  << " - brightness [0, 2] \n - black-white \n - gaussian-blur \n"
                   << " - double-threshold \n - edge-tracking"
                   << "\n - canny-edge-detection \n\n";
         return 0;

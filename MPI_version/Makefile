@@ -1,7 +1,10 @@
 CC = mpic++
-FLAGS = -Wall -Wextra -Wno-unused-parameter -ggdb
+FLAGS = -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable #-ggdb
 LIBRARY = -lm
 CC_FOLDER = build
+
+UTILS = ../utils
+HEADER_FILES = $(UTILS)/filter.h $(UTILS)/image.h $(UTILS)/imageIO.h $(UTILS)/utils.h $(UTILS)/filter_factory.h
 
 FILTERS_MPI = $(CC_FOLDER)/black-white_filter.o $(CC_FOLDER)/canny-edge-detection_filter.o $(CC_FOLDER)/contrast_filter.o \
 				$(CC_FOLDER)/dummy_filter.o $(CC_FOLDER)/edge-tracking_filter.o $(CC_FOLDER)/emboss_filter.o \
@@ -9,9 +12,12 @@ FILTERS_MPI = $(CC_FOLDER)/black-white_filter.o $(CC_FOLDER)/canny-edge-detectio
 				$(CC_FOLDER)/non-maximum-suppression_filter.o $(CC_FOLDER)/sepia_filter.o $(CC_FOLDER)/sharpen_filter.o \
 				$(CC_FOLDER)/gradient.o
 
-build: mpi_version
+build: mpi_version mpi_version_assert
 
-mpi_version: main_MPI.cpp $(CC_FOLDER)/lodepng.o $(FILTERS_MPI)
+mpi_version: main_MPI.cpp $(HEADER_FILES) $(CC_FOLDER)/lodepng.o $(FILTERS_MPI)
+	$(CC) $(FLAGS) $^ -o $@ $(LIBRARY)
+
+mpi_version_assert: main_MPI.cpp $(HEADER_FILES) $(CC_FOLDER)/lodepng.o $(FILTERS_MPI)
 	$(CC) $(FLAGS) -DASSERT_ENABLE $^ -o $@ $(LIBRARY)
 
 $(CC_FOLDER)/brightness.o: ./filters/brightness_filter_MPI.cpp
@@ -60,4 +66,4 @@ run:
 	mpirun -np $(no_threads) ./mpi_version $(in) $(out) $(filter)
 
 clean:
-	rm -rf mpi_version build/*
+	rm -rf mpi_version mpi_version_assert build/*

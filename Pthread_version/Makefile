@@ -1,7 +1,10 @@
 CC = g++
-FLAGS = -Wall -Wextra -Wno-unused-parameter #-g
+FLAGS = -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable #-g
 LIBRARY = -lm -lpthread
 CC_FOLDER = build
+
+UTILS = ../utils
+HEADER_FILES = $(UTILS)/filter.h $(UTILS)/image.h $(UTILS)/imageIO.h $(UTILS)/utils.h $(UTILS)/filter_factory.h ./helpers_pthread.h
 
 FILTERS_SER = $(CC_FOLDER)/black-white_filter_pthread.o $(CC_FOLDER)/canny-edge-detection_filter_pthread.o $(CC_FOLDER)/contrast_filter_pthread.o \
 				$(CC_FOLDER)/dummy_filter_pthread.o $(CC_FOLDER)/edge-tracking_filter_pthread.o $(CC_FOLDER)/emboss_filter_pthread.o \
@@ -9,9 +12,12 @@ FILTERS_SER = $(CC_FOLDER)/black-white_filter_pthread.o $(CC_FOLDER)/canny-edge-
 				$(CC_FOLDER)/non-maximum-suppression_filter_pthread.o $(CC_FOLDER)/sepia_filter_pthread.o $(CC_FOLDER)/sharpen_filter_pthread.o \
 				$(CC_FOLDER)/gradient_pthread.o
 
-build: pthread_version
+build: pthread_version pthread_version_assert
 
-pthread_version: main_pthread.cpp $(CC_FOLDER)/lodepng.o $(FILTERS_SER)
+pthread_version: main_pthread.cpp $(HEADER_FILES) $(CC_FOLDER)/lodepng.o $(FILTERS_SER)
+	$(CC) $(FLAGS) $^ -o $@ $(LIBRARY)
+
+pthread_version_assert: main_pthread.cpp $(HEADER_FILES) $(CC_FOLDER)/lodepng.o $(FILTERS_SER)
 	$(CC) $(FLAGS) -DASSERT_ENABLE $^ -o $@ $(LIBRARY)
 
 $(CC_FOLDER)/brightness_pthread.o: ./filters/brightness_filter_pthread.cpp
@@ -57,4 +63,4 @@ $(CC_FOLDER)/lodepng.o: ../third-party/lodepng.cpp
 	$(CC) $(FLAGS) -O3 $^ -C -c -o $@
 
 clean:
-	rm -rf pthread_version build/*
+	rm -rf pthread_version pthread_version_assert build/*

@@ -1,8 +1,12 @@
 #include <iostream>
+#include <string>
 #include "../utils/image.h"
 #include "../utils/imageIO.h"
 #include "../utils/filter.h"
 #include "../utils/filter_factory.h"
+
+#define CONTRAST "contrast"
+#define BRIGHTNESS "brightness"
 
 /**
  * OBS:
@@ -40,12 +44,32 @@ Image* processImage(Image **image, char **filters, int n) {
     Filter *filter;
     Image *newImage = new Image((*image)->width - 2, (*image)->height - 2);
     Image *aux;
+    double param;
 
     for (int i = 0; i < n; ++i) {
         std::string f = filters[i];
         std::cout << "Filtrul: " << f << '\n';
 
-        filter = FilterFactory::filterCreate(f);
+        if (f == BRIGHTNESS) {
+            param = std::stod(filters[++i]);
+            if (param < 0 || param > 2) {
+                continue;
+            }
+
+            std::cout << param << '\n';
+            filter = FilterFactory::filterCreate(f, param);
+        } else if (f == CONTRAST) {
+            param = std::stod(filters[++i]);
+            if (param < -128 || param > 128) {
+                continue;
+            }
+
+            std::cout << param << '\n';
+            filter = FilterFactory::filterCreate(f, param);
+        } else {
+            filter = FilterFactory::filterCreate(f);
+        }
+
         filter->applyFilter(*image, newImage);
         delete filter;
 
@@ -79,8 +103,8 @@ int main(int argc, char const *argv[])
          * in a rula doar acest filtru 
          */
         std::cout << "No filter/s provided.\n";
-        std::cout << "Filters: \n - sharpen \n - emboss \n - sepia \n - contrast \n"
-                  << " - brightness \n - black-white \n - gaussian-blur \n"
+        std::cout << "Filters: \n - sharpen \n - emboss \n - sepia \n - contrast [-128, 128] \n"
+                  << " - brightness [0, 2] \n - black-white \n - gaussian-blur \n"
                   << " - double-threshold \n - edge-tracking"
                   << "\n - canny-edge-detection \n\n";
         return 0;

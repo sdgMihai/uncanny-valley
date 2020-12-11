@@ -12,7 +12,7 @@ class __attribute__((__packed__)) Pixel {
 
     public:
         /**
-         * constructor - creeaza un pixel-zero (r = g = b = a = -)
+         * constructor - creeaza un pixel-zero (r = g = b = a = 0)
          */
         Pixel() {
             this->r = this->g = this->b = this->a = 0;
