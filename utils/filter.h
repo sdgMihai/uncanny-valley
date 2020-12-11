@@ -4,6 +4,9 @@
 #include "image.h"
 
 class Filter {
+    protected:
+        void *filter_additional_data;
+
     public:
         /**
          * aplica un filtru pe imagine
@@ -19,6 +22,10 @@ class Filter {
 
 class BlackWhiteFilter : public Filter {
     public:
+        BlackWhiteFilter(void *filter_additional_data = nullptr) {
+            this->filter_additional_data = filter_additional_data;
+        }
+
         /**
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
@@ -30,6 +37,9 @@ class BlackWhiteFilter : public Filter {
 
 class CannyEdgeDetectionFilter : public Filter {
     public:
+        CannyEdgeDetectionFilter(void *filter_additional_data = nullptr) {
+            this->filter_additional_data = filter_additional_data;
+        }
         /**
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
@@ -49,8 +59,9 @@ class ConstrastFilter : public Filter {
          * constructor
          * @param contrast
          */
-        ConstrastFilter(float contrast) {
+        ConstrastFilter(float contrast, void *filter_additional_data = nullptr) {
             this->contrast = contrast;
+            this->filter_additional_data = filter_additional_data;
         }
 
         /**
@@ -68,6 +79,9 @@ class DoubleTresholdFilter : public Filter {
         const float thresholdLow = 0.05;
 
     public:
+        DoubleTresholdFilter(void *filter_additional_data = nullptr) {
+            this->filter_additional_data = filter_additional_data;
+        }
         /**
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
@@ -84,6 +98,9 @@ class GradientFilter : public Filter {
         unsigned int thetaWidth;
     
     public:
+        GradientFilter(void *filter_additional_data = nullptr) {
+            this->filter_additional_data = filter_additional_data;
+        }
         /**
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
@@ -93,15 +110,20 @@ class GradientFilter : public Filter {
         virtual void applyFilter(Image *image, Image *newImage) override;
 
         virtual ~GradientFilter() {
-            for (unsigned int i = 0; i < this->thetaHeight; ++i) {
-                delete[] this->theta[i];
+            if (this->theta) {
+                for (unsigned int i = 0; i < this->thetaHeight; ++i) {
+                    delete[] this->theta[i];
+                }
+                delete[] this->theta;
             }
-            delete[] this->theta;
         }
 };
 
 class DummyFilter : public Filter {
     public:
+        DummyFilter(void *filter_additional_data = nullptr) {
+            this->filter_additional_data = filter_additional_data;
+        }
         /**
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
@@ -113,6 +135,9 @@ class DummyFilter : public Filter {
 
 class EdgeTrackingFilter : public Filter {
     public:
+        EdgeTrackingFilter(void *filter_additional_data = nullptr) {
+            this->filter_additional_data = filter_additional_data;
+        }
         /**
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
@@ -124,6 +149,9 @@ class EdgeTrackingFilter : public Filter {
 
 class EmbossFilter : public Filter {
     public:
+        EmbossFilter(void *filter_additional_data = nullptr) {
+            this->filter_additional_data = filter_additional_data;
+        }
         /**
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
@@ -135,6 +163,9 @@ class EmbossFilter : public Filter {
 
 class GaussianBlurFilter : public Filter {
     public:
+        GaussianBlurFilter(void *filter_additional_data = nullptr) {
+            this->filter_additional_data = filter_additional_data;
+        }
         /**
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
@@ -151,17 +182,12 @@ class NonMaximumSuppressionFilter : public Filter {
         unsigned int thetaWidth;
 
     public:
-        NonMaximumSuppressionFilter(float **theta, unsigned int thetaHeight, unsigned int thetaWidth) {
+        NonMaximumSuppressionFilter(float **theta, unsigned int thetaHeight,
+            unsigned int thetaWidth, void *filter_additional_data = nullptr) {
+            this->filter_additional_data = filter_additional_data;
             this->thetaWidth = thetaWidth;
             this->thetaHeight = thetaHeight;
-            this->theta = new float *[thetaHeight];
-
-            for (unsigned int i = 0; i < thetaHeight; ++i) {
-                this->theta[i] = new float[thetaWidth];
-                for (unsigned int j = 0; j < thetaWidth; ++j) {
-                    this->theta[i][j] = theta[i][j];
-                }
-            }
+            this->theta = theta;
         }
 
         /**
@@ -173,17 +199,15 @@ class NonMaximumSuppressionFilter : public Filter {
         virtual void applyFilter(Image *image, Image *newImage) override;
 
         virtual ~NonMaximumSuppressionFilter() {
-            if (this->theta) {
-                for (unsigned int i = 0; i < this->thetaHeight; ++i) {
-                    delete[] this->theta[i];
-                }
-                delete[] this->theta;
-            }
+            
         }
 };
 
 class SepiaFilter : public Filter {
     public:
+        SepiaFilter(void *filter_additional_data = nullptr) {
+            this->filter_additional_data = filter_additional_data;
+        }
         /**
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
@@ -195,6 +219,9 @@ class SepiaFilter : public Filter {
 
 class SharpenFilter : public Filter {
     public:
+        SharpenFilter(void *filter_additional_data = nullptr) {
+            this->filter_additional_data = filter_additional_data;
+        }
         /**
          * @param image referinta catre imagine
          * @param newImage referinta catre obiectul tip Image
@@ -213,8 +240,9 @@ class BrightnessFilter : public Filter {
          * constructor
          * @param brightness
          */
-        BrightnessFilter(float brightness) {
+        BrightnessFilter(float brightness, void *filter_additional_data = nullptr) {
             this->brightness = brightness;
+            this->filter_additional_data = filter_additional_data;
         }
 
         /**

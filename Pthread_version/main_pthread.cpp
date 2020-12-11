@@ -1,10 +1,15 @@
 #include <iostream>
-#include <omp.h>
-
 #include "../utils/image.h"
 #include "../utils/imageIO.h"
 #include "../utils/filter.h"
 #include "../utils/filter_factory.h"
+#include "helpers_pthread.h"
+typedef struct {
+    Image *image, *newImage;
+    thread_specific_data_t thread_data;
+    const char **argv;
+    int argc;
+} thread_data_t;
 
 /**
  * OBS:
@@ -33,22 +38,26 @@
 
 /**
  * aplica filtrele pe imaginea primita
- * @param image referita catre imagine
+ * @param image referinta catre imagine
  * @param filters lista de filtre ce trebuie aplicata
  * @param n numarul de filtre
  * @return imaginea obtinuta in urma aplicarii filtrelor
  */
-Image* processImage(Image **image, char **filters, int n) {
+void processImage(Image **image, char **filters, int n, thread_data_t *thread_data) {
     Filter *filter;
-    Image *newImage = new Image((*image)->width - 2, (*image)->height - 2);
     Image *aux;
+    Image *newImage = thread_data->newImage;
 
     for (int i = 0; i < n; ++i) {
         std::string f = filters[i];
-        std::cout << "Filtrul: " << f << '\n';
+        if (thread_data->thread_data.thread_id == 0) {
+            std::cout << "Filtrul: " << f << '\n';
+        }
 
-        filter = FilterFactory::filterCreate(f);
+        filter = FilterFactory::filterCreate(f, 0.0, nullptr, 0, 0,
+                &(thread_data->thread_data));
         filter->applyFilter(*image, newImage);
+        pthread_barrier_wait(thread_data->thread_data.barrier);
         delete filter;
 
         if (i == (n - 1)) {
@@ -59,14 +68,22 @@ Image* processImage(Image **image, char **filters, int n) {
         *image = newImage;
         newImage = aux;
     }
-
-    return newImage;
 }
 
+// Prepares the thread data and calls for the start of the filter
+void *pthread_filter_wrapper(void *args)
+{
+    thread_data_t *data = (thread_data_t *) args;
+    
+    processImage(&data->image, (char **)&(data->argv[3]), data->argc - 3, data);
+    return NULL;
+}
 
 int main(int argc, char const *argv[])
 {
-    Image *image, *newImage;
+    Image *image;
+    pthread_barrier_t barrier;
+    pthread_mutex_t mutex;
 
     if(argc < 3) {
         std::cerr << "Usage: " << argv[0] << " <file_in> <file_out> [f1, f2, ..., fn]\n\n";
@@ -90,16 +107,39 @@ int main(int argc, char const *argv[])
 
     std::string fileIn = argv[1];
     std::string fileOut = argv[2];
-
-    /* TODO: ar trebui sa vedem cum stabilim numarul de thread-uri */
-    omp_set_num_threads(omp_get_num_procs());
+    thread_data_t arguments[NUM_THREADS];
+	pthread_t threads[NUM_THREADS];
+    pthread_barrier_init(&barrier, NULL, NUM_THREADS);
+    pthread_mutex_init(&mutex, NULL);
 
 	image = ImageIo::imageRead(fileIn);
-	newImage = processImage(&image, (char **)&argv[3], argc - 3);
+    Image *newImage = new Image(image->width - 2, image->height - 2);
+
+    for (int i = 0; i < NUM_THREADS; ++i) {
+        arguments[i].thread_data.thread_id = i;
+        arguments[i].thread_data.barrier = &barrier;
+        arguments[i].thread_data.mutex = &mutex;
+        arguments[i].image = image;
+        arguments[i].newImage = newImage;
+        arguments[i].argc = argc;
+        arguments[i].argv = argv;
+    }
+
+    for (int i = 1; i < NUM_THREADS; ++i) {
+        pthread_create(&threads[i], NULL, pthread_filter_wrapper, &arguments[i]);
+    }
+
+    pthread_filter_wrapper(&arguments[0]);
+
+	for (int i = 1; i < NUM_THREADS; ++i) {
+		pthread_join(threads[i], NULL);
+	}
+
 	ImageIo::imageWrite(fileOut, newImage);
 
     delete image;
     delete newImage;
-
+    pthread_barrier_destroy(&barrier);
+    pthread_mutex_destroy(&mutex);
     return 0;
 }
