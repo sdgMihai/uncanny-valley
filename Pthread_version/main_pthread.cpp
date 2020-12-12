@@ -58,15 +58,18 @@ void processImage(Image **image, char **filters, int n, thread_data_t *thread_da
     for (int i = 0; i < n; ++i) {
         std::string f = filters[i];
 
-        std::cout << "Filtrul: " << f << '\n';
+        if (thread_data->thread_data.thread_id == 0) {
+            std::cout << "Filtrul: " << f << '\n';
+        }
 
         if (f == BRIGHTNESS) {
             param = std::stod(filters[++i]);
             if (param < 0 || param > 2) {
                 continue;
             }
-
-            std::cout << param << '\n';
+            if (thread_data->thread_data.thread_id == 0) {
+                std::cout << param << '\n';
+            }
             filter = FilterFactory::filterCreate(f, param, nullptr, 0, 0,
                 &(thread_data->thread_data));
         } else if (f == CONTRAST) {
@@ -74,8 +77,9 @@ void processImage(Image **image, char **filters, int n, thread_data_t *thread_da
             if (param < -128 || param > 128) {
                 continue;
             }
-
-            std::cout << param << '\n';
+            if (thread_data->thread_data.thread_id == 0) {
+                std::cout << param << '\n';
+            }
             filter = FilterFactory::filterCreate(f, param, nullptr, 0, 0,
                 &(thread_data->thread_data));
         } else {
