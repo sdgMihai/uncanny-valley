@@ -12,7 +12,7 @@ FILTERS_OPENMP = $(CC_FOLDER)/dummy_filter_openMP.o $(CC_FOLDER)/black-white_fil
               $(CC_FOLDER)/non-maximum-suppression_filter_openMP.o $(CC_FOLDER)/sepia_filter_openMP.o $(CC_FOLDER)/sharpen_filter_openMP.o \
               $(CC_FOLDER)/canny-edge-detection_filter_openMP.o
 
-build: openMP_version openMP_version_assert
+build: openMP_version #openMP_version_assert
 
 openMP_version: main_openMP.cpp $(HEADER_FILES) $(CC_FOLDER)/lodepng.o $(FILTERS_OPENMP)
 	$(CC) $(FLAGS) $^ -o $@ $(LIBRARY)

@@ -49,11 +49,11 @@ typedef struct {
  * @param n numarul de filtre
  * @return imaginea obtinuta in urma aplicarii filtrelor
  */
+static double param;
 void processImage(Image **image, char **filters, int n, thread_data_t *thread_data) {
     Filter *filter;
     Image *aux;
     Image *newImage = thread_data->newImage;
-    double param;
 
     for (int i = 0; i < n; ++i) {
         std::string f = filters[i];
@@ -63,23 +63,19 @@ void processImage(Image **image, char **filters, int n, thread_data_t *thread_da
         }
 
         if (f == BRIGHTNESS) {
-            param = std::stod(filters[++i]);
-            if (param < 0 || param > 2) {
-                continue;
-            }
             if (thread_data->thread_data.thread_id == 0) {
                 std::cout << param << '\n';
+                param = std::stod(filters[++i]);
             }
+            pthread_barrier_wait(thread_data->thread_data.barrier);
             filter = FilterFactory::filterCreate(f, param, nullptr, 0, 0,
                 &(thread_data->thread_data));
         } else if (f == CONTRAST) {
-            param = std::stod(filters[++i]);
-            if (param < -128 || param > 128) {
-                continue;
-            }
             if (thread_data->thread_data.thread_id == 0) {
+                param = std::stod(filters[++i]);
                 std::cout << param << '\n';
             }
+            pthread_barrier_wait(thread_data->thread_data.barrier);
             filter = FilterFactory::filterCreate(f, param, nullptr, 0, 0,
                 &(thread_data->thread_data));
         } else {

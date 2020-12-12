@@ -4,7 +4,6 @@ LIBRARY = -lm
 CC_FOLDER = build
 
 UTILS = ../utils
-HEADER_FILES = $(UTILS)/filter.h $(UTILS)/image.h $(UTILS)/imageIO.h $(UTILS)/utils.h $(UTILS)/filter_factory.h
 
 FILTERS_SER = $(CC_FOLDER)/black-white_filter.o $(CC_FOLDER)/canny-edge-detection_filter.o $(CC_FOLDER)/contrast_filter.o \
 				$(CC_FOLDER)/dummy_filter.o $(CC_FOLDER)/edge-tracking_filter.o $(CC_FOLDER)/emboss_filter.o \
@@ -12,9 +11,9 @@ FILTERS_SER = $(CC_FOLDER)/black-white_filter.o $(CC_FOLDER)/canny-edge-detectio
 				$(CC_FOLDER)/non-maximum-suppression_filter.o $(CC_FOLDER)/sepia_filter.o $(CC_FOLDER)/sharpen_filter.o \
 				$(CC_FOLDER)/gradient.o
 
-build: ser_version ser_version_assert
+build: ser_version #ser_version_assert
 
-ser_version: main_serial.cpp $(HEADER_FILES) $(CC_FOLDER)/lodepng.o $(FILTERS_SER)
+ser_version: main_serial.cpp $(CC_FOLDER)/lodepng.o $(FILTERS_SER)
 	$(CC) $(FLAGS) $^ -o $@ $(LIBRARY)
 
 ser_version_assert: main_serial.cpp $(HEADER_FILES) $(CC_FOLDER)/lodepng.o $(FILTERS_SER)
