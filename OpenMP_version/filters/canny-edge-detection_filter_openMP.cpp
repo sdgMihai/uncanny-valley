@@ -29,9 +29,9 @@ void CannyEdgeDetectionFilter::applyFilter(Image *image, Image *newImage) {
     filter = "non-maximum-suppression";
     Filter *nonMaximumSuppressionFilter = FilterFactory::filterCreate(filter, 0.0, gradientFilter->theta,
                                                 gradientFilter->thetaHeight, gradientFilter->thetaWidth);
-    delete gradientFilter;
     nonMaximumSuppressionFilter->applyFilter(newImage, image);
     delete nonMaximumSuppressionFilter;
+    delete gradientFilter;
 
 
     filter = "double-threshold";
