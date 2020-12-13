@@ -11,7 +11,7 @@ static const float Gy[3][3] = {{1, 2, 1},
                                 {0, 0, 0},
                                 {-1, -2, -1}};
 
-static float gMax = -MAXFLOAT;
+static float gMax = -3.40282347e+38F;
 static float **Ix, **Iy, **auxTheta;
 
 // Cel mai mare din filtre, se aplica pasii de mai jos pe rand
@@ -72,7 +72,7 @@ void GradientFilter::applyFilter(Image *image, Image *newImage) {
         }
     }
 
-    float threadgMax = -MAXFLOAT;
+    float threadgMax = -3.40282347e+38F;
     // 3. Se calculeaza G = sqrt(Gx**2 + Gy**2) pe fiecare element, se foloseste Ix ca depozit
     // Se calculeaza theta = arctangenta(Iy, Ix) pe fiecare element
     for (unsigned int i = start; i < stop; ++i) {

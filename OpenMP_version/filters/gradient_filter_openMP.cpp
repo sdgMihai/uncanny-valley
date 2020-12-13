@@ -15,7 +15,7 @@ static const float Gy[3][3] = {{1, 2, 1},
 /* Cel mai mare din filtre, se aplica pasii de mai jos pe rand */
 void GradientFilter::applyFilter(Image *image, Image *newImage) {
     float **Ix, **Iy;
-    float gMax = -MAXFLOAT;
+    float gMax = -3.40282347e+38F;
 
     Ix = new float *[image->height];
     Iy = new float *[image->height];
