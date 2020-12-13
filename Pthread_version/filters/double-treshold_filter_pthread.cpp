@@ -2,7 +2,7 @@
 #include "../helpers_pthread.h"
 #include <cmath>
 
-float maxVal = -MAXFLOAT;
+float maxVal = -3.40282347e+38F;
 
 // Imparte valorile in 2 high si low (threshold-urile sunt constante in clasa
 // poate trebuiesc date ca input in caz ca se vrea)
@@ -17,7 +17,7 @@ void DoubleTresholdFilter::applyFilter(Image *image, Image *newImage) {
     }
 
     // Calculate the maximum value for each thread
-    float threadMaxVal = -MAXFLOAT;
+    float threadMaxVal = -3.40282347e+38F;
     for (unsigned int i = start; i < stop; ++i) {
         for (unsigned int j = 1; j < image->width - 1; ++j) {
             threadMaxVal = (threadMaxVal < image->matrix[i][j].r) ? image->matrix[i][j].r : threadMaxVal;

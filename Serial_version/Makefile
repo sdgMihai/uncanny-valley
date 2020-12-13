@@ -1,5 +1,5 @@
 CC = g++
-FLAGS = -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable #-g
+FLAGS = --std=c++17 -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable #-g
 LIBRARY = -lm
 CC_FOLDER = build
 
