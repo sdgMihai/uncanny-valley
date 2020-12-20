@@ -43,6 +43,8 @@ void GradientFilter::applyFilter(Image *image, Image *newImage) {
     this->thetaWidth = image->width;
     pthread_barrier_wait(t_data->barrier);
     this->theta = auxTheta;
+    pthread_barrier_wait(t_data->barrier);
+    auxTheta = 0;
 
     // 1. Se aplica kernelul Gx pe imagine si se obtine Ix
     for (unsigned int i = start; i < stop; ++i) {
@@ -105,6 +107,8 @@ void GradientFilter::applyFilter(Image *image, Image *newImage) {
             newImage->matrix[i][j] = Pixel(gray, gray, gray, image->matrix[i][j].a);
         }
     }
+
+    pthread_barrier_wait(t_data->barrier);
 
     if (t_data->thread_id == 0)
     {

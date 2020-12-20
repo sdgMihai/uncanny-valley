@@ -88,8 +88,21 @@ void processImage(Image **image, char **filters, int n, thread_data_t *thread_da
         delete filter;
 
         if (i == (n - 1)) {
+            if (n % 2 == 0) {
+                u_int64_t slice = ((*image)->height - 2) / NUM_THREADS;
+                u_int64_t start = thread_max(1, thread_data->thread_data.thread_id * slice);
+                u_int64_t stop  = (thread_data->thread_data.thread_id + 1) * slice;
+                if (thread_data->thread_data.thread_id + 1 == NUM_THREADS) {
+                    stop = thread_max((thread_data->thread_data.thread_id + 1) * slice, ((*image)->height - 1));
+                }
+                for (unsigned int i = start; i < stop; ++i) {
+                    Pixel *swp = (*image)->matrix[i];
+                    (*image)->matrix[i] = newImage->matrix[i];
+                    newImage->matrix[i] = swp;
+                }
+            }
             break;
-        } 
+        }
 
         aux = *image;
         *image = newImage;
