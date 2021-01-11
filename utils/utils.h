@@ -56,5 +56,4 @@ const std::unordered_map<std::string, FILTER> filters = {
     {"canny-edge-detection", FILTER::CANNY_EDGE_DETECTION}
 };
 
-
 #endif /* __UTILS_H_ */

@@ -2,6 +2,8 @@
 #define __FILTER_H_
 
 #include "image.h"
+#include "utils.h"
+#include "../MPI_version/mpi_data.h"
 
 class Filter {
     protected:
@@ -36,9 +38,18 @@ class BlackWhiteFilter : public Filter {
 };
 
 class CannyEdgeDetectionFilter : public Filter {
+    private:
+        int rank;
+        int numtasks;
+        int chunk;
     public:
         CannyEdgeDetectionFilter(void *filter_additional_data = nullptr) {
             this->filter_additional_data = filter_additional_data;
+            if (this->filter_additional_data != nullptr) {
+                rank = ((my_t_data *) filter_additional_data)->rank;
+                numtasks = ((my_t_data *) filter_additional_data)->numtasks;
+                chunk = ((my_t_data *) filter_additional_data)->chunk;
+            }
         }
         /**
          * @param image referinta catre imagine
@@ -75,7 +86,7 @@ class ConstrastFilter : public Filter {
 
 class DoubleTresholdFilter : public Filter {
     private:
-        const float thresholdHigh = 0.1;
+        const float thresholdHigh = 0.06;
         const float thresholdLow = 0.05;
 
     public:

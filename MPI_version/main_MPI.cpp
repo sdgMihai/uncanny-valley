@@ -1,15 +1,15 @@
-#include <iostream>
 #include <math.h>
 #include <string>
+#include <iostream>
 
-#define OMPI_SKIP_MPICXX 1
-#include "mpi.h"
 #include "../utils/imageIO.h"
 #include "../utils/image.h"
 #include "../utils/filter.h"
 #include "../utils/filter_factory.h"
+#include "../utils/utils.h"
+#include "helpers_mpi.h"
+#include "mpi_data.h"
 
-#define MASTER 0
 
 #define CONTRAST "contrast"
 #define BRIGHTNESS "brightness"
@@ -25,7 +25,7 @@ void commLines(Image *image, int rank, int numtasks, int chunk) {
     if (rank == MASTER) {
         for (int tid = 1; tid < numtasks; ++tid) {
             int start = chunk * tid;
-            int end = std::min(chunk * (tid + 1) + 1, (int)image->height);  // [ast last index]
+            int end = std::min(chunk * (tid + 1) + 1, (int)image->height);  // past last index
             end += (end != (int)image->height ? 1 : 0);  // past last index
 
             for(int i = start; i < end; ++i) {
@@ -113,16 +113,22 @@ Image* processImage(Image **image, char **filters, int n, int rank, int numstask
 
             std::cout << param << '\n';
             filter = FilterFactory::filterCreate(f, param);
+        } else if (!f.compare("canny-edge-detection")) {
+            my_t_data *this_thread = new my_t_data(rank, numstasks, chunk);
+            filter = FilterFactory::filterCreate(f, param, nullptr, 0, 0, this_thread);
         } else {
             filter = FilterFactory::filterCreate(f);
         }
 
         filter->applyFilter(*image, newImage);
+        if (f.compare("black-white") && i != (n - 1)) {
+            updateLines(newImage, rank, numstasks, chunk);
+        }
         delete filter;
 
         if (i == (n - 1)) {
             break;
-        } 
+        }
 
         aux = *image;
         *image = newImage;

@@ -1,4 +1,5 @@
 #include "../../utils/filter.h"
+#include "../helpers_mpi.h"
 
 /**
  * TODO:
@@ -13,15 +14,15 @@ void CannyEdgeDetectionFilter::applyFilter(Image *image, Image *newImage) {
     step1.applyFilter(image, newImage);
     GaussianBlurFilter step2;
     step2.applyFilter(newImage, image);
-    // printf("in gauss image -height: %u  width %u image:%p\n", image->height, image->width, image->matrix);
-    // fflush(stdout);
-    // printf("in gauss new image -height: %u  width %u image:%p\n", newImage->height, newImage->width, newImage->matrix);
+    updateLines(image, rank, numtasks, chunk);
     GradientFilter step3;
     step3.applyFilter(image, newImage);
+    updateLines(newImage, rank, numtasks, chunk);
     NonMaximumSuppressionFilter step4(step3.theta, step3.thetaHeight, step3.thetaWidth);
     step4.applyFilter(newImage, image);
     DoubleTresholdFilter step5;
     step5.applyFilter(image, newImage);
+    updateLines(newImage, rank, numtasks, chunk);
     EdgeTrackingFilter step6;
     step6.applyFilter(newImage, image);
 
@@ -36,5 +37,4 @@ void CannyEdgeDetectionFilter::applyFilter(Image *image, Image *newImage) {
             }
         }
     }
-    puts("canny-edge------------------");
 }

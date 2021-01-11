@@ -1,6 +1,10 @@
 #include "../../utils/filter.h"
 #include <cmath>
 #include <cstdio>
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include "../helpers_mpi.h"
 
 static const float Gx[3][3] = {{-1, 0, 1},
                                 {-2, 0, 2},
@@ -65,14 +69,16 @@ void GradientFilter::applyFilter(Image *image, Image *newImage) {
 		    if (gMax < gray) {
                 gMax = gray;
             }
-            Ix[i][j] = gray;
             this->theta[i][j] =  atan2(Iy[i][j], Ix[i][j]) * 180 / M_PI;
+            Ix[i][j] = gray;
             if (this->theta[i][j] < 0) {
                 this->theta[i][j] += 180;
             }
         }
     }
-
+    
+    MPI_Allreduce( MPI_IN_PLACE, &gMax, 1, MPI_FLOAT, MPI_MAX, MPI_COMM_WORLD);
+    
     // 4. Se calculeaza G = G / G.max() * 255
     for (unsigned int i = 1; i < image->height - 1; ++i) {
         for (unsigned int j = 1; j < image->width - 1; ++j) {

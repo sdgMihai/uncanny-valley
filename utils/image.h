@@ -50,7 +50,6 @@ class Image {
         Image(unsigned int width, unsigned int height) {
             this->width = width + 2;
             this->height = height + 2;
-
             this->matrix = new Pixel*[this->height];
             ASSERT(this->matrix != nullptr)
 
