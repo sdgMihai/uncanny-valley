@@ -1,7 +1,6 @@
 #include "../../utils/filter.h"
 
 /**
- * TODO:
  *  Acest filtru foloseste mai multe filtre aplicate succesiv:
  *   black&white, gaussian blur, gradient, non-maximum supression, double threshold, edge tracking
  */

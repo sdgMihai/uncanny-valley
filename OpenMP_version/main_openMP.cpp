@@ -115,7 +115,6 @@ int main(int argc, char const *argv[])
     std::string fileIn = argv[1];
     std::string fileOut = argv[2];
 
-    /* TODO: ar trebui sa vedem cum stabilim numarul de thread-uri */
     omp_set_num_threads(omp_get_num_procs());
 
 	image = ImageIo::imageRead(fileIn);
